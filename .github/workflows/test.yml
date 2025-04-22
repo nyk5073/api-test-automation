@@ -20,15 +20,17 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
+      # Create .env file with AUTH_TOKEN from GitHub Secrets
+      # Important: Add AUTH_TOKEN to your repository secrets in Settings > Secrets and variables > Actions
       - name: Create .env file
         run: |
-          cat > .env << 'EOL'
+          cat > .env << EOL
           # API Configuration
           API_BASE_URL=https://gorest.co.in
           API_TIMEOUT=30000
 
           # Authentication
-          AUTH_TOKEN=518db8d9e9fd98e14b9a8a11e547666ae90d42eea2bc0f8255a46fd6ced165b3
+          AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
 
           # Test Configuration
           TEST_TIMEOUT=30000
@@ -57,31 +59,3 @@ jobs:
           path: |
             junit.xml
             coverage/
-
-      - name: Comment PR with test results summary
-        if: always()
-        uses: EnricoMi/publish-unit-test-result-action@v2.12.0
-        with:
-          files: junit.xml
-
-      # Run tests
-      - name: Run tests
-        run: npm run test:ci
-
-      # Upload test artifacts
-      - name: Upload test artifacts
-        uses: actions/upload-artifact@v4
-        if: always()  # Run even if previous steps fail
-        with:
-          name: test-artifacts
-          path: |
-            junit.xml
-            coverage/
-
-      # Add test results as PR comment
-      - name: Comment PR with test results summary
-        uses: EnricoMi/publish-unit-test-result-action@v2.12.0
-        if: always()  # Run even if previous steps fail
-        with:
-          files: junit.xml
-
