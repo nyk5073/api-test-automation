@@ -1,8 +1,6 @@
 # GitHub Actions workflow to run API tests on pull requests
-# against the main branch
 name: API Tests
 
-# Trigger on pull requests against main branch
 on:
   pull_request:
     branches: [main]
@@ -13,48 +11,76 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Set up Node.js environment
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'  # Latest LTS version
-          cache: 'npm'          # Cache npm dependencies
+          node-version: '18.x'
+          cache: 'npm'
 
-      # Set up environment using existing script
-      - name: Set up test environment
-        run: npm run pretest:env
+      - name: Create .env file
+        run: |
+          cat > .env << 'EOL'
+          # API Configuration
+          API_BASE_URL=https://gorest.co.in
+          API_TIMEOUT=30000
 
-      # Install dependencies
+          # Authentication
+          AUTH_TOKEN=518db8d9e9fd98e14b9a8a11e547666ae90d42eea2bc0f8255a46fd6ced165b3
+
+          # Test Configuration
+          TEST_TIMEOUT=30000
+          TEST_RETRIES=3
+
+          # Logging
+          LOG_LEVEL=debug
+          ENABLE_REQUEST_LOGGING=true
+          ENABLE_RESPONSE_LOGGING=true
+
+          # Environment
+          NODE_ENV=test
+          EOL
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Run tests
+        run: npm run test:ci
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            junit.xml
+            coverage/
+
+      - name: Comment PR with test results summary
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2.12.0
+        with:
+          files: junit.xml
 
       # Run tests
       - name: Run tests
         run: npm run test:ci
 
-      # Upload test results as artifacts
-      - name: Upload test results
-        uses: actions/upload-artifact@v3
+      # Upload test artifacts
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v4
         if: always()  # Run even if previous steps fail
         with:
-          name: test-results
-          path: junit.xml
-
-      # Upload coverage report as artifacts
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        if: always()  # Run even if previous steps fail
-        with:
-          name: coverage-report
-          path: coverage/
+          name: test-artifacts
+          path: |
+            junit.xml
+            coverage/
 
       # Add test results as PR comment
       - name: Comment PR with test results summary
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@v2.12.0
         if: always()  # Run even if previous steps fail
         with:
           files: junit.xml
