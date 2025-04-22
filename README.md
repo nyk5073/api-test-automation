@@ -16,7 +16,7 @@ This framework provides a structured approach to API testing with support for au
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/nyk5073/api-test-automation.git
    cd api-test-automation
    ```
 
