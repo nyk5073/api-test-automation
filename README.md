@@ -27,7 +27,7 @@ This framework provides a structured approach to API testing with support for au
 
 ## Configuration
 
-The framework uses environment variables for configuration. Modify the `.env` file in the root directory with your own token:
+The framework uses environment variables for configuration. Create a `.env` file in the root directory with your own token:
 
 ```
 # API Configuration
