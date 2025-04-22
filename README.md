@@ -27,13 +27,25 @@ This framework provides a structured approach to API testing with support for au
 
 ## Configuration
 
-The framework uses environment variables for configuration. Create or modify the `.env` file in the root directory:
+The framework uses environment variables for configuration. Create the `.env` file in the root directory:
 
 ```
-# Sample .env file structure
-API_BASE_URL=https://api.example.com
-API_USERNAME=testuser
-API_PASSWORD=testpassword
+# API Configuration
+API_BASE_URL=https://gorest.co.in
+API_VERSION=v1
+
+# Authentication
+AUTH_USERNAME=test_user
+AUTH_PASSWORD=test_password
+AUTH_TOKEN=get_your_own_token_from_goRest_site
+#https://gorest.co.in/my-account/access-tokens
+
+# Test Configuration
+TEST_TIMEOUT=30000
+TEST_RETRY_COUNT=3
+
+# Environment
+NODE_ENV=test
 ```
 
 A test environment configuration is available in the `test-env` directory. You can apply it by running:
