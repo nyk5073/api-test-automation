@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand",
-    "test:auth": "jest --testPathPattern=tests/auth",
     "test:users": "jest --testPathPattern=tests/users",
     "test:posts": "jest --testPathPattern=tests/posts",
-    "test:comments": "jest --testPathPattern=tests/comments",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:parallel": "jest --maxWorkers=50%",
     "lint": "eslint . --ext .ts",
     "pretest:env": "cp test-env/test.env .env",
-    "test:ci": "jest --ci --coverage --reporters=default --reporters=jest-junit",
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
     "report": "open coverage/lcov-report/index.html"
   },
   "keywords": [
