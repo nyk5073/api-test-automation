@@ -1,0 +1,34 @@
+# CODEOWNERS file for API Test Automation project
+#
+# This file defines code ownership for different parts of the codebase.
+# When someone opens a pull request that modifies code with an owner,
+# those owners will automatically be requested for review.
+#
+# For more information about the CODEOWNERS file, see:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# they will be requested for review when someone opens a pull request.
+* @noorkhan
+
+# Test files
+/tests/ @noorkhan
+*.test.ts @noorkhan
+*.spec.ts @noorkhan
+
+# Configuration files
+*.json @noorkhan
+*.config.* @noorkhan
+.env.example @noorkhan
+jest.config.* @noorkhan
+tsconfig.* @noorkhan
+
+# CI/CD and GitHub configurations
+/.github/ @noorkhan
+*.yml @noorkhan
+*.yaml @noorkhan
+
+# Test utilities and helpers
+/helpers/ @noorkhan
+
